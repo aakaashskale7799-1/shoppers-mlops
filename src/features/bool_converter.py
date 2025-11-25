@@ -1,19 +1,12 @@
-import pandas as pd
-from .base import BaseTransformer
-
-class BooleanConverter(BaseTransformer):
-    """
-    Converts True/False to 1/0.
-    """
-
+class BooleanConverter:
     def __init__(self, cols):
         self.cols = cols
 
-    def fit(self, df):
+    def fit(self, X):
         return self
 
-    def transform(self, df):
-        df = df.copy()
+    def transform(self, X):
+        X = X.copy()
         for col in self.cols:
-            df[col] = df[col].astype(int)
-        return df
+            X[col] = X[col].astype(bool).astype(str)
+        return X

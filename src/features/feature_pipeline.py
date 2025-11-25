@@ -1,22 +1,16 @@
-import pandas as pd
-from typing import List
-from .base import BaseTransformer
-
 class FeaturePipeline:
-    """
-    Executes transformers sequentially (like sklearn Pipeline).
-    """
-
-    def __init__(self, transformers: List[BaseTransformer]):
+    def __init__(self, transformers):
         self.transformers = transformers
 
-    def fit(self, df: pd.DataFrame):
+    def fit(self, X):
+        X_tmp = X.copy()
         for t in self.transformers:
-            t.fit(df)
-            df = t.transform(df)
+            t.fit(X_tmp)
+            X_tmp = t.transform(X_tmp)
         return self
 
-    def transform(self, df: pd.DataFrame):
+    def transform(self, X):
+        X_tmp = X.copy()
         for t in self.transformers:
-            df = t.transform(df)
-        return df
+            X_tmp = t.transform(X_tmp)
+        return X_tmp

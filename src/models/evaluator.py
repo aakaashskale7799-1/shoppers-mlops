@@ -5,7 +5,7 @@ from sklearn.metrics import (
 
 class Evaluator:
     """
-    Evaluates classification models using standard metrics.
+    Computes evaluation metrics for a classification model.
     """
 
     def evaluate(self, y_true, y_pred, y_prob):

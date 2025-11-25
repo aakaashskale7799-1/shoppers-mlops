@@ -1,21 +1,15 @@
 import pandas as pd
-from .base import BaseTransformer
 
-class CategoricalImputer(BaseTransformer):
-    """
-    Imputes categorical columns using mode.
-    """
-
-    def __init__(self, cols):
+class CategoricalImputer:
+    def __init__(self, cols, fill_value="Unknown"):
         self.cols = cols
-        self.values = {}
+        self.fill_value = fill_value
 
-    def fit(self, df):
+    def fit(self, X):
+        return self
+
+    def transform(self, X):
+        X = X.copy()
         for col in self.cols:
-            self.values[col] = df[col].mode().iloc[0]
-
-    def transform(self, df):
-        df = df.copy()
-        for col, val in self.values.items():
-            df[col] = df[col].fillna(val)
-        return df
+            X[col] = X[col].fillna(self.fill_value).astype(str)
+        return X
